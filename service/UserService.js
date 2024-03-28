@@ -14,9 +14,7 @@ class UserService {
 		const candidate = await UserModel.findOne({ email })
 
 		if (candidate) {
-			throw ApiError.BadRequest(
-				`Пользователь с почтовым адресом ${email} уже существует`
-			)
+			throw ApiError.BadRequest(`Пользователь с почтовым адресом ${email} уже существует`)
 		}
 
 		const hashPassword = await bcrypt.hash(password, 5)
@@ -38,7 +36,7 @@ class UserService {
 		const tokens = TokenService.generateTokens({ ...userDto })
 		await TokenService.saveToken(userDto.id, tokens.refreshToken)
 
-		return { ...tokens, user: userDto }
+		return { ...tokens, user: userDto, navigateTo: '/thanks' }
 	}
 
 	async activate(activationLink) {
@@ -71,7 +69,7 @@ class UserService {
 
 		await TokenService.saveToken(userDto.id, tokens.refreshToken)
 
-		return { ...tokens, user: userDto }
+		return { ...tokens, user: userDto, navigateTo: '/' }
 	}
 
 	async logout(refreshToken) {
@@ -99,7 +97,7 @@ class UserService {
 
 		await TokenService.saveToken(userDto.id, tokens.refreshToken)
 
-		return { ...tokens, user: userDto }
+		return { ...tokens, user: userDto, navigateTo: '' }
 	}
 
 	async getAllUsers() {

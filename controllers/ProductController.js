@@ -15,9 +15,7 @@ class ProductController {
 				specs,
 			})
 
-			return res
-				.status(200)
-				.json({ message: `Товар ${productName} успешно создан` })
+			return res.status(200).json({ message: `Товар ${productName} успешно создан` })
 		} catch (error) {
 			console.log(error.message)
 		}
