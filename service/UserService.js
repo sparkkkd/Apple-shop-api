@@ -61,7 +61,7 @@ class UserService {
 		const isValidPassword = await bcrypt.compare(password, user.password)
 
 		if (!isValidPassword) {
-			throw ApiError.BadRequest('Неверный пароль')
+			throw ApiError.BadRequest('Неверный логин или пароль')
 		}
 
 		const userDto = new UserDto(user)
