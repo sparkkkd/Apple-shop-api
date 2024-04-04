@@ -95,6 +95,17 @@ class UserController {
 			next(error)
 		}
 	}
+
+	async setUserRole(req, res, next) {
+		try {
+			const { id } = req.params
+			const { role } = req.body
+			const user = await UserService.setUserRole(id, role)
+			return res.status(200).json(user)
+		} catch (error) {
+			next(error)
+		}
+	}
 }
 
 export default new UserController()

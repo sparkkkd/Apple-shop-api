@@ -25,6 +25,7 @@ class UserService {
 			password: hashPassword,
 			name,
 			activationLink,
+			role: 'User',
 		})
 
 		await MailService.sendActivationMail(
@@ -100,9 +101,14 @@ class UserService {
 		return { ...tokens, user: userDto, navigateTo: '' }
 	}
 
-	async getAllUsers() {
-		const users = await UserModel.find()
-		return users
+	async setUserRole(id, role) {
+		const userData = await UserModel.findOneAndUpdate({ _id: id }, { role })
+
+		if (!userData) {
+			throw ApiError.BadRequest('Пользователь не найден')
+		}
+
+		return new UserDto(userData)
 	}
 }
 
